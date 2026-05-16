@@ -2,7 +2,7 @@
 import time
 import random
 import string
-import os
+import os 
 
 chars = string.ascii_letters + string.digits + "/\{}[]<>"
 

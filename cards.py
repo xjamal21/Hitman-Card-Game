@@ -1,4 +1,4 @@
-cards = {
+cards = {  
     "hitman": {
         "name": "Hitman",
         "desc": "You're dead.",
