@@ -1,7 +1,11 @@
+# add card name and description
 class Card:
     def __init__(self, name, desc):
         self.name = name
         self.desc = desc
+        
+    def __repr__(self):
+        return self.name
 
 class Hitman(Card):
     def __init__(self):

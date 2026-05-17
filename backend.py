@@ -24,6 +24,8 @@ while True:
     else:
         if len(player_list) < 2:
             print("Not enough players!")
+        elif len(player_list) >= 6:
+            print("Too many players. Insert 'start' to start the game.")
         else:
             break
 
