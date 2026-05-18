@@ -1,4 +1,5 @@
 # add card name and description
+# pk add ability
 class Card:
     def __init__(self, name, desc):
         self.name = name

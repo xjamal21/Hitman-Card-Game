@@ -1,7 +1,5 @@
 import cards
 import random
-from backend import player_count
-
 
 class Deck:
     def __init__(self):
@@ -53,10 +51,3 @@ class Deck:
             
         # shuffle the deck
         random.shuffle(self.decks)
-        
-# construct the deck based on player count
-game_deck = Deck()
-game_deck.build_deck(player_count)
-
-print(game_deck.decks)
-print(len(game_deck.decks))

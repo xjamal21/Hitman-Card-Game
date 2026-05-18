@@ -1,40 +1,49 @@
 # add introduction
+# dixon add menu with start setting-language quit and tutorial
 import time
 import random
 import string
 import os 
+from game import Game
+from deck import Deck
 
+# generate loading screen
 chars = string.ascii_letters + string.digits + "/\{}[]<>"
 
-for i in range(50):
-    loading = "".join(random.choice (chars) for i in range (50))
+for i in range(30):
+    loading = "".join(random.choice (chars) for i in range (30))
     print(loading)
     time.sleep(0.08)
 
 os.system("cls")
 
-player_list = []
+# run the game mechanic
+current_game = Game()
 
-
+# add player into the list
 while True:
     name_input = input("Insert your name (type 'start' to start the game): ")
 
     if name_input == "start":
-        if len(player_list) < 2:
+        if current_game.player_count() < 2:
             print("Not enough players!")
         else:
             break
     else:
-        if len(player_list) >= 6:
+        if current_game.player_count() >= 6:
             print("Too many players. Insert 'start' to start the game.")
         else:
-            player_list.append(name_input)
-            
+            current_game.add_player(name_input)
 
+# display player list
 print("=========================== PLAYERS ===============================")
-
-print(f" > {player_list}")
-
+print(f" > {current_game}")
 print("===================================================================")
 
+# construct the deck based on player count
+game_deck = Deck()
+game_deck.build_deck(current_game.player_count())
 
+# setup game
+current_game.setup_game(game_deck.decks)
+print(game_deck.decks)
