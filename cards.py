@@ -90,3 +90,10 @@ class Clone(Card):
             name = "Clone Card",
             desc = "Choose a player, your hand becomes a copy of theirs."
         )
+        
+class Steal(Card):
+    def __init__(self):
+        super().__init__(
+            name = "Steal Card",
+            desc = "Choose a player, and steal a random card from their hand."
+        )

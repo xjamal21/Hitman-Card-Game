@@ -19,15 +19,17 @@ player_list = []
 while True:
     name_input = input("Insert your name (type 'start' to start the game): ")
 
-    if name_input != "start":
-        player_list.append(name_input)
-    else:
+    if name_input == "start":
         if len(player_list) < 2:
             print("Not enough players!")
-        elif len(player_list) >= 6:
-            print("Too many players. Insert 'start' to start the game.")
         else:
             break
+    else:
+        if len(player_list) >= 6:
+            print("Too many players. Insert 'start' to start the game.")
+        else:
+            player_list.append(name_input)
+            
 
 print("=========================== PLAYERS ===============================")
 
