@@ -68,14 +68,19 @@ class Player:
             try:
                 # select a card
                 chosen_card_index = int(input(f"Enter the card index (0 to {len(self.hand) - 1}): "))
-                
+                chosen_card = self.hand[chosen_card_index]  
+                 
                 if chosen_card_index >= len(self.hand):
                     print("Please input a valid number.")
                     return None
                 
-                chosen_card = self.hand[chosen_card_index]
+                if chosen_card.name == "Angel Card":
+                    print("You cannot use an Angel Card.")
+                    return None
+
                 self.hand.pop(chosen_card_index)
                 # chosen_card.ability()
                 return chosen_card
+            
             except ValueError:
                 print("Please input a valid number.")

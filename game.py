@@ -8,11 +8,23 @@ class Game:
     def __repr__(self):
         return str(self.players)
     
-    def add_player(self, name):
-        self.players.append(Player(name))
-        
     def get_player_count(self):
-        return len(self.players)
+        return len(self.players)    
+    
+    def create_lobby(self):
+        while True:
+            name_input = input("Insert your name (type 'start' to start the game): ")
+
+            if name_input == "start":
+                if self.get_player_count() < 2:
+                    print("Not enough players!")
+                else:
+                    break
+            else:
+                if self.get_player_count() >= 6:
+                    print("Too many players. Insert 'start' to start the game.")
+                else:
+                    self.players.append(Player(name_input))
     
     def setup_game(self, deck):
         # dixon add some loading screen like setting up blablabla

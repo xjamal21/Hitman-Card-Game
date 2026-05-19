@@ -22,21 +22,8 @@ os.system("cls")
 # run the game mechanic
 current_game = Game()
 
-# add player into the list
-# try make this to a class method
-while True:
-    name_input = input("Insert your name (type 'start' to start the game): ")
-
-    if name_input == "start":
-        if current_game.get_player_count() < 2:
-            print("Not enough players!")
-        else:
-            break
-    else:
-        if current_game.get_player_count() >= 6:
-            print("Too many players. Insert 'start' to start the game.")
-        else:
-            current_game.add_player(name_input)
+# create lobby
+current_game.create_lobby()
 
 # display player list
 print("=========================== PLAYERS ===============================")
