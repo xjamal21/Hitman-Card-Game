@@ -1,0 +1,68 @@
+import keyboard
+import colorama
+import time
+import random
+import string
+import os 
+from game import Game
+from deck import Deck
+
+# add introduction
+from colorama import Fore
+
+print(Fore.RED + r"""
+ __    __  ______  ________  __       __   ______   __    __       
+|  \  |  \|      \|        \|  \     /  \ /      \ |  \  |  \      
+| $$  | $$ \$$$$$$ \$$$$$$$$| $$\   /  $$|  $$$$$$\| $$\ | $$      
+| $$__| $$  | $$     | $$   | $$$\ /  $$$| $$__| $$| $$$\| $$      
+| $$    $$  | $$     | $$   | $$$$\  $$$$| $$    $$| $$$$\ $$      
+| $$$$$$$$  | $$     | $$   | $$\$$ $$ $$| $$$$$$$$| $$\$$ $$      
+| $$  | $$ _| $$_    | $$   | $$ \$$$| $$| $$  | $$| $$ \$$$$      
+| $$  | $$|   $$ \   | $$   | $$  \$ | $$| $$  | $$| $$  \$$$      
+ \$$   \$$ \$$$$$$    \$$    \$$      \$$ \$$   \$$ \$$   \$$      
+                                                                   
+                                                                   
+""")
+
+print("Press ENTER to continue")
+
+while True:
+    if keyboard.is_pressed("enter"):
+        break
+
+print("Continuing...")
+time.sleep(2)
+
+# dixon add menu with start setting-language quit and tutorial
+# dixon add player alive display, add chances of getting a hitman
+
+# generate loading screen
+chars = string.ascii_letters + string.digits + "/\{}[]<>"
+
+for i in range(30):
+    loading = "".join(random.choice (chars) for i in range (30))
+    print(loading)
+    time.sleep(0.08)
+
+os.system("cls")
+
+# run the game mechanic
+current_game = Game()
+
+# create lobby
+current_game.create_lobby()
+
+# display player list
+print("=========================== PLAYERS ===============================")
+print(f" > {current_game}")
+print("===================================================================")
+
+# construct the deck based on player count
+game_deck = Deck()
+game_deck.build_deck(current_game.get_player_count())
+
+# setup game
+current_game.setup_game(game_deck.decks)
+
+# start game
+current_game.start_game_loop(game_deck.decks)
