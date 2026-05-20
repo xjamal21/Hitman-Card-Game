@@ -46,7 +46,7 @@ class Reverse(Card):
         super().__init__(
             name = "Reverse Card",
             desc = "End your turn and reverse the play order.",
-            doesSkipTurn = False
+            doesSkipTurn = True
         )
 
 class Attack(Card):

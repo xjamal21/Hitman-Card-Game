@@ -1,4 +1,5 @@
 import random
+import os
 
 class Player:
     def __init__(self, name):
@@ -16,7 +17,7 @@ class Player:
             print("You have no cards to play.")
         else:
             for index, card in enumerate(self.hand):
-                print(f"[{index}] {card.name:<15} | {card.desc}")
+                print(f"[{index}] {card.name:<20} | {card.desc}")
     
     # run mechanic when encounter hitman card
     def encounter_hitman(self):
@@ -55,8 +56,8 @@ class Player:
         else:
             self.hand.append(deck[0])
             deck.pop(0)
-            print(f"You drawed a {self.hand[-1].name}")
-            print(self.hand)  # dixon this is print player hand after they drawed a card
+            print(f"You drawed a {self.hand[-1].name}.")
+            # print(self.hand)  # dixon this is print player hand after they drawed a card
             
     # play a card in hand
     def play_card(self):
@@ -68,18 +69,22 @@ class Player:
             try:
                 # select a card
                 chosen_card_index = int(input(f"Enter the card index (0 to {len(self.hand) - 1}): "))
-                chosen_card = self.hand[chosen_card_index]  
-                 
+ 
                 if chosen_card_index >= len(self.hand):
+                    os.system("cls")  
                     print("Please input a valid number.")
                     return None
                 
+                chosen_card = self.hand[chosen_card_index]   
+                              
                 if chosen_card.name == "Angel Card":
+                    os.system("cls")  
                     print("You cannot use an Angel Card.")
                     return None
 
                 self.hand.pop(chosen_card_index)
                 # chosen_card.ability()
+                os.system("cls")  
                 return chosen_card
             
             except ValueError:

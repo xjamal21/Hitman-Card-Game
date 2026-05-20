@@ -1,3 +1,5 @@
+#  notice when someone draws a hitman card or when someone dies
+
 from player import Player
 import cards
 import os
@@ -5,6 +7,7 @@ import os
 class Game:
     def __init__(self):
         self.players = []
+        self.taken_names = []
         
     def __repr__(self):
         return str(self.players)
@@ -14,18 +17,23 @@ class Game:
     
     def create_lobby(self):
         while True:
-            name_input = input("Insert your name (type 'start' to start the game): ")
+            name_input = input("Insert your name. Type '1' to start the game: ").strip()
 
-            if name_input == "start":
+            if name_input == "1":
                 if self.get_player_count() < 2:
                     print("Not enough players!")
                 else:
                     break
             else:
                 if self.get_player_count() >= 6:
-                    print("Too many players. Insert 'start' to start the game.")
+                    print("Too many players. Type '1' to start the game:")
+                elif name_input.isdigit() or name_input.isspace() or name_input == "":
+                    print("Invalid name.")
+                elif name_input in self.taken_names:
+                    print("Your name has been taken. Insert another name.")
                 else:
                     self.players.append(Player(name_input))
+                    self.taken_names.append(name_input)
     
     def setup_game(self, deck):
         # dixon add some loading screen like setting up blablabla
@@ -39,7 +47,27 @@ class Game:
                         player.hand.append(card)
                         break
         # dixon send a msg like setup complete everyone has 5 cards
+    
+    def get_players_alive(self):
+        alive_players = []     
+        for player in self.players:
+            if player.isAlive:
+                alive_players.append(player)
+                
+        return alive_players
+    
+    def get_num_hitman(self, deck):
+        num = 0
+        for card in deck:
+            if card.name == "Hitman":
+                num += 1
         
+        return num
+    
+    def get_chance_hitman(self, deck):
+        percentage = (f"{round(self.get_num_hitman(deck) / len(deck) * 100, 2)}%")
+        return percentage
+    
     def start_game_loop(self, deck):
         game_over = False
         
@@ -51,6 +79,10 @@ class Game:
                 if not current_player.isAlive:  
                     continue
                 
+                print("===================================================================")
+                print(f"Players Left: {len(self.get_players_alive())} | Hitman: {self.get_num_hitman(deck)} | Death Chance: {self.get_chance_hitman(deck)} | ")
+                print("===================================================================")
+                
                 print(f"Now is {current_player.name} turn.")
                 
                 required_turns = getattr(current_player, "turn")
@@ -60,7 +92,7 @@ class Game:
                 while turn < required_turns:
                     print(f"Turn {turn + 1} of total {required_turns} turns.")
                     current_player.show_hand()
-                    player_choice = input("Take an action. (p) Play a card (d) Draw a card: ")
+                    player_choice = input("Take an action. (p) Play a card (d) Draw a card: ").lower()
                     
                     if player_choice == "p":
                         played_card = current_player.play_card()
@@ -72,19 +104,26 @@ class Game:
                         current_player.draw_card(deck)
                         turn += 1
                     else:
+                        os.system("cls")  
                         print("Invalid input. Type 'p' or 'd'.")
 
                 input("Press ENTER to end your turn...")
                 os.system("cls")   
             
                 # detect numbers of players alive
-                alive_players = []     
-                for player in self.players:
-                    if player.isAlive:
-                        alive_players.append(player)
+                # alive_players = []     
+                # for player in self.players:
+                #     if player.isAlive:
+                #         alive_players.append(player)
+                
+                # # end the game if alive players is 1
+                # if len(alive_players) == 1:
+                #     print(f"GAME OVER! {alive_players[0]} is the winner!") 
+                #     game_over = True
+                #     break          
                 
                 # end the game if alive players is 1
-                if len(alive_players) == 1:
-                    print(f"GAME OVER! {alive_players[0]} is the winner!") 
+                if len(self.get_players_alive()) == 1:
+                    print(f"GAME OVER! {self.get_players_alive()[0]} is the winner!") 
                     game_over = True
-                    break          
+                    break
