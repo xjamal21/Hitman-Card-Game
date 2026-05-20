@@ -1,4 +1,3 @@
-# dixon add player alive display, add chances of getting a hitman
 import keyboard
 import colorama
 import time
@@ -8,6 +7,7 @@ import os
 from game import Game
 from deck import Deck
 
+# add introduction
 from colorama import Fore
 
 print(Fore.RED + r"""
@@ -24,10 +24,17 @@ print(Fore.RED + r"""
                                                                    
 """)
 
-input("Press ENTER to continue...")
+print("Press ENTER to continue")
+
+while True:
+    if keyboard.is_pressed("enter"):
+        break
 
 print("Continuing...")
-time.sleep(1)
+time.sleep(2)
+
+# dixon add menu with start setting-language quit and tutorial
+# dixon add player alive display, add chances of getting a hitman
 
 # generate loading screen
 chars = string.ascii_letters + string.digits + "/\{}[]<>"
