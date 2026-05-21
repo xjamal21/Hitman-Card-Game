@@ -8,6 +8,7 @@ class Game:
     def __init__(self):
         self.players = []
         self.taken_names = []
+        self.notification = []
         
     def __repr__(self):
         return str(self.players)
@@ -68,6 +69,35 @@ class Game:
         percentage = (f"{round(self.get_num_hitman(deck) / len(deck) * 100, 2)}%")
         return percentage
     
+    def add_notification(self, text, player_got_hitman):
+        self.notification.append({
+            "text": text,
+            "viewers": [player_got_hitman]
+        })
+    
+    # display notice when someone got hitman or when someone died
+    def display_notification(self, current_player):
+        if self.notification != []:
+            expired_notice = []
+            alive_players = self.get_players_alive()
+            
+            for notice in self.notification:
+                if current_player.name not in notice['viewers']:   
+                    print(f"{notice['text']}")
+                    notice["viewers"].append(current_player.name)
+
+                doDisplay = False
+                for player in alive_players:
+                    if player.name not in notice["viewers"]:
+                        doDisplay = True
+                        break
+                        
+                if not doDisplay:
+                    expired_notice.append(notice)
+                    
+            for old_notice in expired_notice:
+                self.notification.remove(old_notice)
+        
     def start_game_loop(self, deck):
         game_over = False
         
@@ -80,7 +110,8 @@ class Game:
                     continue
                 
                 print("===================================================================")
-                print(f"Players Left: {len(self.get_players_alive())} | Hitman: {self.get_num_hitman(deck)} | Death Chance: {self.get_chance_hitman(deck)} | ")
+                print(f"Players Left: {len(self.get_players_alive())} | Hitman: {self.get_num_hitman(deck)} | Death Chance: {self.get_chance_hitman(deck)} | Card Left: {len(deck)}")
+                self.display_notification(current_player)
                 print("===================================================================")
                 
                 print(f"Now is {current_player.name} turn.")
@@ -101,7 +132,7 @@ class Game:
                             if played_card.doesSkipTurn:
                                 turn += 1
                     elif player_choice == "d":
-                        current_player.draw_card(deck)
+                        current_player.draw_card(deck, self)
                         turn += 1
                     else:
                         os.system("cls")  
@@ -109,19 +140,7 @@ class Game:
 
                 input("Press ENTER to end your turn...")
                 os.system("cls")   
-            
-                # detect numbers of players alive
-                # alive_players = []     
-                # for player in self.players:
-                #     if player.isAlive:
-                #         alive_players.append(player)
-                
-                # # end the game if alive players is 1
-                # if len(alive_players) == 1:
-                #     print(f"GAME OVER! {alive_players[0]} is the winner!") 
-                #     game_over = True
-                #     break          
-                
+
                 # end the game if alive players is 1
                 if len(self.get_players_alive()) == 1:
                     print(f"GAME OVER! {self.get_players_alive()[0]} is the winner!") 

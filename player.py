@@ -20,7 +20,7 @@ class Player:
                 print(f"[{index}] {card.name:<20} | {card.desc}")
     
     # run mechanic when encounter hitman card
-    def encounter_hitman(self):
+    def encounter_hitman(self, game):
         print(f"{self.name} drawed a Hitman.") #dixon
         angel_found = False
         
@@ -31,19 +31,21 @@ class Player:
                 self.hand.remove(card)
                 angel_found = True
                 print(f"{self.name} used an angel card. The Hitman is put back in deck.") # dixon
+                game.add_notification(f"{self.name} drew an Hitman but used an Angel Card.", self.name)
                 break
         
         # set player to dead if angel card is not present
         if not angel_found:
             self.isAlive = False
             print(f"{self.name} is dead.") #dixon
+            game.add_notification(f"{self.name} blew up.", self.name)
             return True
               
     # draw card from deck 
-    def draw_card(self, deck):
+    def draw_card(self, deck, game):
         # run encounter hitman method when the card drawed is hitman
         if deck[0].name == "Hitman":
-            isDead = self.encounter_hitman()
+            isDead = self.encounter_hitman(game)
             if isDead:
                 # remove hitman card when the player is dead
                 deck.pop(0)
