@@ -18,7 +18,7 @@ class Game:
     
     def create_lobby(self):
         while True:
-            name_input = input("Insert your name. Type '1' to start the game: ").strip()
+            name_input = input("Insert your name. Type '1' to start the game (Minimum 2 players): ").strip()
 
             if name_input == "1":
                 if self.get_player_count() < 2:
