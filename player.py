@@ -1,4 +1,5 @@
 import random
+import os
 
 class Player:
     def __init__(self, name):
@@ -16,10 +17,10 @@ class Player:
             print("You have no cards to play.")
         else:
             for index, card in enumerate(self.hand):
-                print(f"[{index}] {card.name:<15} | {card.desc}")
+                print(f"[{index}] {card.name:<20} | {card.desc}")
     
     # run mechanic when encounter hitman card
-    def encounter_hitman(self):
+    def encounter_hitman(self, game):
         print(f"{self.name} drawed a Hitman.") #dixon
         angel_found = False
         
@@ -30,19 +31,21 @@ class Player:
                 self.hand.remove(card)
                 angel_found = True
                 print(f"{self.name} used an angel card. The Hitman is put back in deck.") # dixon
+                game.add_notification(f"{self.name} drew an Hitman but used an Angel Card.", self.name)
                 break
         
         # set player to dead if angel card is not present
         if not angel_found:
             self.isAlive = False
             print(f"{self.name} is dead.") #dixon
+            game.add_notification(f"{self.name} blew up.", self.name)
             return True
               
     # draw card from deck 
-    def draw_card(self, deck):
+    def draw_card(self, deck, game):
         # run encounter hitman method when the card drawed is hitman
         if deck[0].name == "Hitman":
-            isDead = self.encounter_hitman()
+            isDead = self.encounter_hitman(game)
             if isDead:
                 # remove hitman card when the player is dead
                 deck.pop(0)
@@ -55,8 +58,8 @@ class Player:
         else:
             self.hand.append(deck[0])
             deck.pop(0)
-            print(f"You drawed a {self.hand[-1].name}")
-            print(self.hand)  # dixon this is print player hand after they drawed a card
+            print(f"You drawed a {self.hand[-1].name}.")
+            # print(self.hand)  # dixon this is print player hand after they drawed a card
             
     # play a card in hand
     def play_card(self):
@@ -68,18 +71,22 @@ class Player:
             try:
                 # select a card
                 chosen_card_index = int(input(f"Enter the card index (0 to {len(self.hand) - 1}): "))
-                chosen_card = self.hand[chosen_card_index]  
-                 
+ 
                 if chosen_card_index >= len(self.hand):
+                    os.system("cls")  
                     print("Please input a valid number.")
                     return None
                 
+                chosen_card = self.hand[chosen_card_index]   
+                              
                 if chosen_card.name == "Angel Card":
+                    os.system("cls")  
                     print("You cannot use an Angel Card.")
                     return None
 
                 self.hand.pop(chosen_card_index)
                 # chosen_card.ability()
+                os.system("cls")  
                 return chosen_card
             
             except ValueError:
