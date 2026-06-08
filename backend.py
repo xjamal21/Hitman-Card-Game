@@ -1,5 +1,3 @@
-
-# dixon add player alive display, add chances of getting a hitman
 import keyboard
 import colorama
 import time
@@ -8,9 +6,9 @@ import string
 import os 
 from game import Game
 from deck import Deck
-
 from colorama import Fore
 
+# welcome screen
 print(Fore.RED + r"""
  __    __  ______  ________  __       __   ______   __    __       
 |  \  |  \|      \|        \|  \     /  \ /      \ |  \  |  \      
