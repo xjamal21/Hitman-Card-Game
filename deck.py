@@ -9,10 +9,11 @@ class Deck:
         self.decks = [] # reset deck everytime the game restart
         
         # add cards into the deck
-        angel_mapping = {2:1, 3:1, 4:2, 5:2, 6:3} # 2-3 players = 1 angel card etc
-        num_angel = angel_mapping.get(player_count)
-        for _ in range(num_angel):
+        AngelInferno_mapping = {2:1, 3:1, 4:2, 5:2, 6:3} # 2-3 players = 1 angel card etc
+        num_AngelInferno = AngelInferno_mapping.get(player_count)
+        for _ in range(num_AngelInferno):
             self.decks.append(cards.Angel())
+            self.decks.append(cards.Inferno())
 
         SkipReverseAttack_mapping = {2:4, 3:4, 4:5, 5:5, 6:6}
         num_SkipReverseAttack = SkipReverseAttack_mapping.get(player_count)
