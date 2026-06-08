@@ -1,6 +1,7 @@
 from player import Player
 import cards
 import os
+import time
 
 class Game:
     def __init__(self):
@@ -37,7 +38,15 @@ class Game:
                     self.taken_names.append(name_input)
     
     def setup_game(self, deck):
-        # dixon add some loading screen like setting up blablabla
+        # Loading screen: setting up game assets
+        os.system("cls")
+        print("Setting up card deck...")
+        time.sleep(0.5)
+        print("Distributing protection cards...")
+        time.sleep(0.5)
+        print("Shuffling remaining cards...")
+        time.sleep(0.8)
+        
         for player in self.players:
             player.hand.append(cards.Angel())
 
@@ -47,59 +56,11 @@ class Game:
                         deck.remove(card)
                         player.hand.append(card)
                         break
-        # dixon send a msg like setup complete everyone has 5 cards
-    
-    def get_players_alive(self):
-        alive_players = []     
-        for player in self.players:
-            if player.isAlive:
-                alive_players.append(player)
-                
-        return alive_players
-    
-    def get_num_hitman(self, deck):
-        num = 0
-        for card in deck:
-            if card.name == "Hitman":
-                num += 1
-        
-        return num
-    
-    def get_chance_hitman(self, deck):
-        percentage = (f"{round(self.get_num_hitman(deck) / len(deck) * 100, 2)}%")
-        return percentage
-    
-    def add_notification(self, text, triggered_player):
-        self.notification.append({
-            "text": text,
-            "viewers": [triggered_player]
-        })
-    
-    # display notice when someone got hitman or when someone died
-    def display_notification(self, current_player):
-        if self.notification != []:
-            expired_notice = []
-            alive_players = self.get_players_alive()
-            
-            for notice in self.notification:
-                if notice is None:
-                    continue
-                
-                if current_player.name not in notice['viewers']:   
-                    print(f"{notice['text']}")
-                    notice["viewers"].append(current_player.name)
-
-                doDisplay = False
-                for player in alive_players:
-                    if player.name not in notice["viewers"]:
-                        doDisplay = True
-                        break
                         
-                if not doDisplay:
-                    expired_notice.append(notice)
-                    
-            for old_notice in expired_notice:
-                self.notification.remove(old_notice)
+        # Setup complete message
+        print("\nSetup complete! Everyone has been dealt 5 starting cards.")
+        time.sleep(1.5)
+        os.system("cls")
         
     def start_game_loop(self, deck):
         game_over = False
@@ -151,12 +112,15 @@ class Game:
                 
                 input("Press ENTER to end your turn...")
                 os.system("cls")   
-
-            # end the game if alive players is 1
-            if len(self.get_players_alive()) == 1:
-                print(f"GAME OVER! {self.get_players_alive()[0]} is the winner!") 
-                game_over = True
-                break
             
-            current_index += self.direction
-            current_index = current_index % len(self.players)
+                # detect numbers of players alive
+                alive_players = []     
+                for player in self.players:
+                    if player.isAlive:
+                        alive_players.append(player)
+                
+                # end the game if alive players is 1
+                if len(alive_players) == 1:
+                    print(f"GAME OVER! {alive_players[0]} is the winner!") 
+                    game_over = True
+                    break
