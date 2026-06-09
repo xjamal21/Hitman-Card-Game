@@ -1,6 +1,5 @@
-# add card name and description and other stuff
-# pk add ability
 import random
+
 class Card:
     def __init__(self, name, desc):
         self.name = name
@@ -15,15 +14,15 @@ class Card:
 class Hitman(Card):
     def __init__(self):
         super().__init__(
-            name = "Hitman",
-            desc = "You're dead."
+            name = "Assassin",
+            desc = "Death is upon you."
         )
         
 class Angel(Card):
     def __init__(self):
         super().__init__(
-            name = "Angel Card",
-            desc = "Protects you when you draw the Hitman."
+            name = "Guard",
+            desc = "Protects you from the Assassin."
         )
 
 class Skip(Card):
@@ -41,33 +40,33 @@ class Skip(Card):
 class Future(Card):
     def __init__(self):
         super().__init__(
-            name = "Future Card",
-            desc = "Secretly view the top 3 cards in the deck."
+            name = "Destiny",
+            desc = "Look at the top 3 cards in the deck."
         )
         
     def ability(self, game, deck, current_player):
-        notice = f"{current_player} used Future Card."
+        notice = f"{current_player} used Destiny."
         own_notice = f"The first 3 cards are {deck[0]}, {deck[1]} and {deck[2]}."
         return False, notice, own_notice
 
 class Reverse(Card):
     def __init__(self):
         super().__init__(
-            name = "Reverse Card",
-            desc = "End your turn and reverse the play order."
+            name = "Switch",
+            desc = "End your turn and change the game direction."
         )
         
     def ability(self, game, deck, current_player):
         game.direction *= -1
-        notice = f"{current_player} reversed the play order."
-        own_notice = "You reversed the play order."
+        notice = f"{current_player} changed the play order."
+        own_notice = "You changed the play order."
         return True, notice, own_notice
 
 class Attack(Card):
     def __init__(self):
         super().__init__(
-            name = "Attack Card",
-            desc = "Skip your turn. A player you choose must take 1 more turn in his next turn."
+            name = "Target",
+            desc = "Skip your turn and choose a victim to take an extra turn."
         )
         
     def ability(self, game, deck, current_player):
@@ -92,25 +91,25 @@ class Attack(Card):
 class Mirror(Card):
     def __init__(self):
         super().__init__(
-            name = "Mirror Card",
-            desc = "Copy the effect of the card underneath."
-        )           
+            name = "Mimic",
+            desc = "Use the power of the last card played."
+        )          
         
     def ability(self, game, deck, current_player):
         discard_cards = getattr(game, "discarded_cards")
         if discard_cards == []:
-            print("No card to copy.")
+            print("No card to mimic.")
             return None
         else:
             last_played_card = discard_cards[-1]
-            print(f"Mirror Card copied the ability of {last_played_card.name}.")
+            print(f"Mimic got the ability of {last_played_card.name}.")
             return last_played_card.ability(game, deck, current_player)
         
 class Shuffle(Card):
     def __init__(self):
         super().__init__(
-            name = "Shuffle Card",
-            desc = "Shuffle the deck."
+            name = "Scramble",
+            desc = "Shuffles the deck."
         )
         
     def ability(self, game, deck, current_player):
@@ -122,8 +121,8 @@ class Shuffle(Card):
 class Inferno(Card):
     def __init__(self):
         super().__init__(
-            name = "Inferno Card",
-            desc = "Remove the underneath card copies from all players hands (including yourself)."
+            name = "Incinerate",
+            desc = "Removes all cards that match the last played card from everyone's card."
         )
     
     def ability(self, game, deck, current_player):
@@ -143,7 +142,7 @@ class Inferno(Card):
                 player.hand = card_to_keep
             
             notice = f"{current_player} burned all {last_played_card} from everyone's hand."
-            own_notice = f"You burned all {last_played_card} from everyone's hand."     
+            own_notice = f"You burned all {last_played_card} from everyone's hand."    
             return False, notice, own_notice   
         
 class Bottom(Card):
@@ -175,8 +174,8 @@ class Bottom(Card):
 class SuperAttack(Card):
     def __init__(self):
         super().__init__(
-            name = "Super Attack Card",
-            desc = "Skip your turn. All other players must take 1 more turn."
+            name = "MassAttack",
+            desc = "Skip your turn and everyone must take an extra turn."
         )
         
     def ability(self, game, deck, current_player):
@@ -193,8 +192,8 @@ class SuperAttack(Card):
 class Clone(Card):
     def __init__(self):
         super().__init__(
-            name = "Clone Card",
-            desc = "Choose a player, your hand becomes a copy of theirs."
+            name = "Copy",
+            desc = "Choose a player and make your hand exactly like theirs."
         )
         
     def ability(self, game, deck, current_player):
@@ -206,15 +205,15 @@ class Clone(Card):
             print(f"[{index}] {player.name}")
             
         try:
-            target = int(input(f"Choose a player to clone his hand (0-{len(alive_players) - 1}): "))
+            target = int(input(f"Choose a player to copy his hand (0-{len(alive_players) - 1}): "))
             target_player = alive_players[target]
             for card in target_player.hand:
                 cloned_hand.append(card)
                 
             current_player.hand = cloned_hand
             
-            notice = f"{current_player.name} cloned {target_player.name}'s hand."
-            own_notice = f"You cloned {target_player.name}'s hand."
+            notice = f"{current_player.name} copy {target_player.name}'s hand."
+            own_notice = f"You copy {target_player.name}'s hand."
             return True, notice, own_notice
         except (ValueError, IndexError):
             print("Invalid input.3")
@@ -223,8 +222,8 @@ class Clone(Card):
 class Steal(Card):
     def __init__(self):
         super().__init__(
-            name = "Steal Card",
-            desc = "Choose a player, and steal a random card from their hand."
+            name = "Thief",
+            desc = "Choose a player and take a random card from them."
         )
         
     def ability(self, game, deck, current_player):
