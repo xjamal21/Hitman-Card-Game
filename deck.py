@@ -9,46 +9,45 @@ class Deck:
         self.decks = [] # reset deck everytime the game restart
         
         # add cards into the deck
-        AngelInferno_mapping = {2:1, 3:1, 4:2, 5:2, 6:3} # 2-3 players = 1 angel card etc
-        num_AngelInferno = AngelInferno_mapping.get(player_count)
-        for _ in range(num_AngelInferno):
-            self.decks.append(cards.Angel())
-            self.decks.append(cards.Inferno())
+        GuardIncinerate_mapping = {2:1, 3:1, 4:2, 5:2, 6:3} # 2-3 players = 1 guard card etc
+        num_GuardIncinerate = GuardIncinerate_mapping.get(player_count)
+        for _ in range(num_GuardIncinerate):
+            self.decks.append(cards.Guard())
+            self.decks.append(cards.Incinerate())
 
-        SkipReverseAttack_mapping = {2:4, 3:4, 4:5, 5:5, 6:6}
-        num_SkipReverseAttack = SkipReverseAttack_mapping.get(player_count)
-        for _ in range(num_SkipReverseAttack):
+        SkipSwitchTarget_mapping = {2:4, 3:4, 4:5, 5:5, 6:6}
+        num_SkipSwitchTarget = SkipSwitchTarget_mapping.get(player_count)
+        for _ in range(num_SkipSwitchTarget):
             self.decks.append(cards.Skip())
-            self.decks.append(cards.Reverse())
-            self.decks.append(cards.Attack())
+            self.decks.append(cards.Switch())
+            self.decks.append(cards.Target())
         
-        FutureShuffleSteal_mapping = {2:2, 3:3, 4:4, 5:5, 6:6}
-        num_FutureShuffleSteal = FutureShuffleSteal_mapping.get(player_count)
-        for _ in range(num_FutureShuffleSteal):
-            self.decks.append(cards.Future())
-            self.decks.append(cards.Shuffle())
-            self.decks.append(cards.Steal())
+        DestinyScramble_mapping = {2:2, 3:3, 4:4, 5:5, 6:6}
+        num_DestinyScramble = DestinyScramble_mapping.get(player_count)
+        for _ in range(num_DestinyScramble):
+            self.decks.append(cards.Destiny())
+            self.decks.append(cards.Scramble())
         
-        BottomSteal_mapping = {2:3, 3:3, 4:4, 5:4, 6:5}
-        num_BottomSteal = BottomSteal_mapping.get(player_count)
-        for _ in range(num_BottomSteal):
+        BottomThief_mapping = {2:3, 3:3, 4:4, 5:4, 6:5}
+        num_BottomThief = BottomThief_mapping.get(player_count)
+        for _ in range(num_BottomThief):
             self.decks.append(cards.Bottom())
-            self.decks.append(cards.Steal())
+            self.decks.append(cards.Thief())
         
         if player_count >= 3:
-            superAttack_mapping = {3:1, 4:2, 5:2, 6:3}
-            num_superAttack = superAttack_mapping.get(player_count)
-            for _ in range(num_superAttack):
-                self.decks.append(cards.SuperAttack())
+            massTarget_mapping = {3:1, 4:2, 5:2, 6:3}
+            num_massTarget = massTarget_mapping.get(player_count)
+            for _ in range(num_massTarget):
+                self.decks.append(cards.MassTarget())
             
-            self.decks.append(cards.Clone())
+            self.decks.append(cards.Copy())
             
-        num_hitman = player_count - 1
-        for _ in range(num_hitman):
-            self.decks.append(cards.Hitman())    
+        num_assassin = player_count - 1
+        for _ in range(num_assassin):
+            self.decks.append(cards.Assassin())    
             
         for _ in range(4):
-            self.decks.append(cards.Mirror())
+            self.decks.append(cards.Mimic())
             
         # shuffle the deck
         random.shuffle(self.decks)

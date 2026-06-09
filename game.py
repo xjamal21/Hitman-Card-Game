@@ -39,11 +39,11 @@ class Game:
     def setup_game(self, deck):
         # dixon add some loading screen like setting up blablabla
         for player in self.players:
-            player.hand.append(cards.Angel())
+            player.hand.append(cards.Guard())
 
             for _ in range(4):
-                for card in deck: #skip hitman and proceed to next card
-                    if card.name != "Hitman":
+                for card in deck: #skip assassin and proceed to next card
+                    if card.name != "Assassin Card":
                         deck.remove(card)
                         player.hand.append(card)
                         break
@@ -57,16 +57,16 @@ class Game:
                 
         return alive_players
     
-    def get_num_hitman(self, deck):
+    def get_num_assassin(self, deck):
         num = 0
         for card in deck:
-            if card.name == "Hitman":
+            if card.name == "Assassin Card":
                 num += 1
         
         return num
     
-    def get_chance_hitman(self, deck):
-        percentage = (f"{round(self.get_num_hitman(deck) / len(deck) * 100, 2)}%")
+    def get_chance_assassin(self, deck):
+        percentage = (f"{round(self.get_num_assassin(deck) / len(deck) * 100, 2)}%")
         return percentage
     
     def add_notification(self, text, triggered_player):
@@ -75,7 +75,7 @@ class Game:
             "viewers": [triggered_player]
         })
     
-    # display notice when someone got hitman or when someone died
+    # display ingame notification
     def display_notification(self, current_player):
         if self.notification != []:
             expired_notice = []
@@ -113,7 +113,7 @@ class Game:
             # skip dead players
             if current_player.isAlive:       
                 print("===================================================================")
-                print(f"Players Left: {len(self.get_players_alive())} | Hitman: {self.get_num_hitman(deck)} | Death Chance: {self.get_chance_hitman(deck)} | Card Left: {len(deck)}")
+                print(f"Players Left: {len(self.get_players_alive())} | Assassin Card: {self.get_num_assassin(deck)} | Death Chance: {self.get_chance_assassin(deck)} | Card Left: {len(deck)}")
                 self.display_notification(current_player)
                 print("===================================================================")
                 

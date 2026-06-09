@@ -1,5 +1,3 @@
-import keyboard
-import colorama
 import time
 import random
 import string
