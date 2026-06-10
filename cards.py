@@ -154,8 +154,8 @@ class Bottom(Card):
         
     def ability(self, game, deck, current_player):
         bottom_card = deck[-1]
-        if bottom_card.name == "Hitman":
-            isDead, notice, own_notice = game.encounter_hitman()
+        if bottom_card.name == "Assassin Card":
+            isDead, notice, own_notice = game.encounter_assassin()
             if isDead:
                 deck.pop(-1)
                 return True, notice, own_notice
