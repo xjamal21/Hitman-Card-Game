@@ -8,10 +8,11 @@ class ThemeManager:
         self.themes = [
             ("Default (White)", Fore.WHITE),
             ("Hacker Green", Fore.GREEN),
-            ("Blood Red", Fore.RED),
             ("Neon Blue", Fore.BLUE),
             ("Cyber Yellow", Fore.YELLOW),
             ("Magenta Mist", Fore.MAGENTA)
         ]
         self.current_name = "Default (White)"
         self.current_color = Fore.WHITE
+
+theme_manager = ThemeManager()

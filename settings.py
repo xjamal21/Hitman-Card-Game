@@ -5,7 +5,6 @@ from theme import ThemeManager
 
 class SettingsMenu:
     def __init__(self):
-        # Settings menu routes configuration to our ThemeManager instance
         self.theme = ThemeManager()
         self.options = ["Change Theme", "Back to Menu"]
         self.selected = 0
@@ -27,12 +26,12 @@ class SettingsMenu:
 
             if key == b'\xe0':
                 key = msvcrt.getch()
-                if key == b'H':    # Up arrow
+                if key == b'H':    
                     self.selected -= 1
-                elif key == b'P':  # Down arrow
+                elif key == b'P':  
                     self.selected += 1
 
-            elif key == b'\r':     # Enter key
+            elif key == b'\r':     
                 choice = self.options[self.selected]
                 
                 if choice == "Change Theme":
@@ -59,6 +58,7 @@ class SettingsMenu:
                     print(f"  {name}")
                     
             print("\n[Press ENTER to select | Press ESC to cancel]")
+
             
             key = msvcrt.getch()
 
@@ -68,15 +68,14 @@ class SettingsMenu:
                     theme_idx -= 1
                 elif key == b'P':
                     theme_idx += 1
-            
+    
             elif key == b'\r':
-                # Apply selection directly down to ThemeManager fields
                 self.theme.current_name, self.theme.current_color = self.theme.themes[theme_idx]
                 print(self.theme.current_color + f"\nTheme applied: {self.theme.current_name}!")
                 time.sleep(1)
                 break
                 
-            elif key == b'\x1b': # ESC key
+            elif key == b'\x1b': 
                 break
 
             if theme_idx < 0:

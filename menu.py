@@ -1,6 +1,4 @@
-import keyboard
 import msvcrt
-import pyfiglet
 import colorama
 import os
 import time
@@ -9,7 +7,7 @@ import string
 from game import Game
 from deck import Deck
 from settings import SettingsMenu 
-from pyfiglet import figlet_format
+from tutorial import TutorialMode
 
 class GameMenu:
     def __init__(self):
@@ -29,13 +27,13 @@ class GameMenu:
 
             current_color = self.settings.theme.current_color
 
-            print(current_color + r""" _   _ _____ ________  ___  ___   _   _  
-| | | |_   _|_   _|  \/  | / _ \ | \ | | 
-| |_| | | |   | | | .  . |/ /_\ \|  \| | 
-|  _  | | |   | | | |\/| ||  _  || . ` | 
-| | | |_| |_  | | | |  | || | | || |\  | 
-\_| |_/\___/  \_/ \_|  |_/\_| |_/\_| \_/ 
-                                         
+            print(current_color + r"""   __   ___   __    ___      ___     ________   
+|/"| /  ") |" \  |"  |    |"  |   ("      "\  
+(: |/   /  ||  | ||  |    ||  |    \___/   :) 
+|    __/   |:  | |:  |    |:  |      /  ___/  
+(// _  \   |.  |  \  |___  \  |___  //  \__   
+|: | \  \  /\  |\( \_|:  \( \_|:  \(:   / "\  
+(__|  \__)(__\_|_)\_______)\_______)\_______) 
                                          """)
             
             for i, option in enumerate(self.options):
@@ -83,7 +81,12 @@ class GameMenu:
                 elif choice == "Settings":
                     self.settings.open()
 
+                elif choice == "Tutorial":
+                    game_tutorial = TutorialMode()
+                    game_tutorial.run()
+
                 elif choice == "Quit Game":
+                    os.system("cls")
                     break
 
             if self.selected < 0:

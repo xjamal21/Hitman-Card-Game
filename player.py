@@ -19,42 +19,42 @@ class Player:
             for index, card in enumerate(self.hand):
                 print(f"[{index}] {card.name:<20} | {card.desc}")
     
-    # run mechanic when encounter hitman card
-    def encounter_hitman(self):
-        angel_found = False
+    # run mechanic when encounter assassin card
+    def encounter_assassin(self):
+        guard_found = False
         
-        # check whether an angel card is presence in the player hand
+        # check whether an guard card is presence in the player hand
         for card in self.hand:
-            if card.name == "Angel Card":
-                # remove the angel card
+            if card.name == "Guard Card":
+                # remove the guard card
                 self.hand.remove(card)
-                angel_found = True
-                notice = f"{self.name} drew a Hitman but used an angel card. The Hitman is put back in deck randomly."
-                own_notice = "You drew a Hitman but used an angel card. The Hitman is put back in deck randomly."
+                guard_found = True
+                notice = f"{self.name} drew an Assassin Card but used an Guard Card. The Assassin Card is put back in deck randomly."
+                own_notice = "You drew a Assassin Card but used an Guard Card. The Assassin Card is put back in deck randomly."
                 return False, notice, own_notice
         
-        # set player to dead if angel card is not present
-        if not angel_found:
+        # set player to dead if guard card is not present
+        if not guard_found:
             self.isAlive = False
-            notice = f"{self.name} drew a Hitman and blew up."
-            own_notice = "You drew a Hitman. You're dead."
+            notice = f"{self.name} drew an Assassin Card and blew up."
+            own_notice = "You drew an Assassin Card. You're dead."
             return True, notice, own_notice
               
     # draw card from deck 
     def draw_card(self, deck):
-        # run encounter hitman method when the card drew is hitman
-        if deck[0].name == "Hitman":
-            isDead, notice, own_notice = self.encounter_hitman()
+        # run encounter assasin method when the card drew is assassin
+        if deck[0].name == "Assassin Card":
+            isDead, notice, own_notice = self.encounter_assassin()
             if isDead:
-                # remove hitman card when the player is dead
+                # remove assassin card when the player is dead
                 deck.pop(0)
                 return notice, own_notice
             else:
-                # reposition hitman card in the deck when the player has angel card
-                reposition_hitman = deck[0]
+                # reposition assassin card in the deck when the player has guard card
+                reposition_assassin = deck[0]
                 deck.pop(0)
                 random_index = random.randint(0, len(deck))
-                deck.insert(random_index, reposition_hitman)
+                deck.insert(random_index, reposition_assassin)
                 return notice, own_notice
         else:
             self.hand.append(deck[0])
@@ -85,9 +85,9 @@ class Player:
             
         chosen_card = self.hand[chosen_card_index]   
                         
-        if chosen_card.name == "Angel Card":
+        if chosen_card.name == "Guard Card":
             os.system("cls")  
-            print("You cannot use an Angel Card.")
+            print("You cannot use an Guard Card.")
             return None
 
         card_result = chosen_card.ability(game, deck, current_player)
