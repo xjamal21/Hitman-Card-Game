@@ -1,6 +1,10 @@
 from player import Player
 import cards
+import time
 import os
+from theme import ThemeManager
+
+
 
 class Game:
     def __init__(self):
@@ -9,6 +13,7 @@ class Game:
         self.notification = []
         self.direction = 1
         self.discarded_cards = []
+
         
     def __repr__(self):
         return str(self.players)
@@ -37,7 +42,17 @@ class Game:
                     self.taken_names.append(name_input)
     
     def setup_game(self, deck):
-        # dixon add some loading screen like setting up blablabla
+        # Loading screen: setting up game assets
+        os.system("cls")
+        print("Setting up card deck...")
+        time.sleep(0.5)
+        print("Distributing protection cards...")
+        time.sleep(0.5)
+        print("Shuffling remaining cards...")
+        time.sleep(0.8)
+
+        os.system("cls")
+
         for player in self.players:
             player.hand.append(cards.Guard())
 
@@ -47,7 +62,6 @@ class Game:
                         deck.remove(card)
                         player.hand.append(card)
                         break
-        # dixon send a msg like setup complete everyone has 5 cards
     
     def get_players_alive(self):
         alive_players = []     
