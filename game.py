@@ -32,13 +32,18 @@ class Game:
                 # name_string = ", ".join(name_list)
                 print(f"Current Players: {", ".join(name_list)}")
             
-            name_input = input("Insert your name. Type '1' to start the game (Minimum 2 players): ").strip()
+            name_input = input("Insert your name. Type '1' to start the game. Type '2' to return to main menu (Minimum 2 players): ").strip()
 
             if name_input == "1":
                 if self.get_player_count() < 2:
-                    show_error("ERROR: Not enough players.")
+                    show_error("Not enough players.")
                 else:
                     break
+            elif name_input == "2":
+                self.players = []
+                self.taken_names = []
+                return False
+            
             else:
                 if self.get_player_count() >= 6:
                     show_error("Too many players. Type '1' to start the game:")
