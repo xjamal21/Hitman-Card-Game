@@ -21,21 +21,44 @@ class Game:
     
     def create_lobby(self):
         while True:
+            os.system("cls")
+
+            if len(self.players) > 0:
+                name_list = []
+                for player in self.players:
+                    name_list.append(player.name)
+                    
+                # name_string = ", ".join(name_list)
+                print(f"Current Players: {", ".join(name_list)}")
+            
             name_input = input("Insert your name. Type '1' to start the game (Minimum 2 players): ").strip()
 
             if name_input == "1":
                 if self.get_player_count() < 2:
-                    print("ERROR: Not enough players.")
+                    show_error("ERROR: Not enough players.")
                 else:
                     break
             else:
                 if self.get_player_count() >= 6:
-                    print("ERROR: Too many players. Type '1' to start the game:")
-                elif name_input.isdigit() or name_input.isspace() or name_input == "":
-                    print("ERROR: Invalid name.")
+                    show_error("Too many players. Type '1' to start the game:")
+                elif name_input.isdigit() or name_input == "":
+                    show_error("Invalid name.")
                 elif name_input in self.taken_names:
-                    print("ERROR: Your name has been taken. Insert another name.")
+                    show_error("Your name has been taken. Insert another name.")
+                elif len(name_input) < 3:
+                    show_error("Your name is too short. Minimum length is 3 characters.")
                 else:
+                    is_valid = True
+                    
+                    for char in name_input:
+                        if not (char.isalnum() or char.isspace()):
+                            is_valid = False
+                            break
+                    
+                    if not is_valid:
+                        show_error("Name can only contain letters, numbers and spaces.")
+                        continue
+                        
                     self.players.append(Player(name_input))
                     self.taken_names.append(name_input)
     
