@@ -3,7 +3,8 @@ from player import show_error
 import cards
 import time
 import os
-from theme import ThemeManager
+# from theme import ThemeManager
+from login import ScoreManager
 
 class Game:
     def __init__(self):
@@ -224,5 +225,8 @@ class Game:
         # import msvcrt
         # while msvcrt.kbhit():
         #     msvcrt.getch()
+        
+        scoreboard = ScoreManager()
+        scoreboard.handle_user_action(self.get_players_alive()[0].name)
         
         input("Press ENTER to return to the Main Menu...")
