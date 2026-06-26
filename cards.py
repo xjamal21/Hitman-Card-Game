@@ -1,4 +1,5 @@
 import random
+from player import show_error
 
 class Card:
     def __init__(self, name, desc):
@@ -41,12 +42,24 @@ class Destiny(Card):
     def __init__(self):
         super().__init__(
             name = "Destiny Card",
-            desc = "Look at the top 3 cards in the deck."
+            desc = "Look at the top cards in the deck."
         )
         
     def ability(self, game, deck, current_player):
+        if deck == []:
+            show_error("The deck is empty.")
+            return None
+        
+        top_cards = deck[:3]
+        name_list = []
+        
+        for card in top_cards:
+            name_list.append(card.name)
+            
+        card_names = ", ".join(name_list)    
+        
         notice = f"{current_player} used Destiny."
-        own_notice = f"The first 3 cards are {deck[0]}, {deck[1]} and {deck[2]}."
+        own_notice = f"The top cards are {card_names}."
         return False, notice, own_notice
 
 class Switch(Card):
@@ -85,7 +98,7 @@ class Target(Card):
             own_notice = f"You forced {target_player.name} to take 1 more turn."
             return True, notice, own_notice
         except (ValueError, IndexError):
-            print("Invalid input.")
+            show_error("Invalid input.")
             return None
         
 class Mimic(Card):
@@ -98,12 +111,17 @@ class Mimic(Card):
     def ability(self, game, deck, current_player):
         discard_cards = getattr(game, "discarded_cards")
         if discard_cards == []:
-            print("No card to mimic.")
+            show_error("No card to mimic.")
             return None
-        else:
-            last_played_card = discard_cards[-1]
-            print(f"Mimic Card copied the ability of {last_played_card.name}.")
-            return last_played_card.ability(game, deck, current_player)
+    
+        last_played_card = discard_cards[-1]
+        
+        if last_played_card.name == "Mimic Card":
+            show_error("A Mimic Card cannot copy another Mimic Card.")
+            return None
+        
+        print(f"Mimic Card copied the ability of {last_played_card.name}.")
+        return last_played_card.ability(game, deck, current_player)
         
 class Scramble(Card):
     def __init__(self):
@@ -128,7 +146,7 @@ class Incinerate(Card):
     def ability(self, game, deck, current_player):
         discard_cards = getattr(game, "discarded_cards")
         if discard_cards == []:
-            print("No card to remove.")
+            show_error("No card to remove.")
             return None
         else:
             last_played_card = discard_cards[-1]
@@ -155,7 +173,7 @@ class Bottom(Card):
     def ability(self, game, deck, current_player):
         bottom_card = deck[-1]
         if bottom_card.name == "Assassin Card":
-            isDead, notice, own_notice = game.encounter_assassin()
+            isDead, notice, own_notice = current_player.encounter_assassin()
             if isDead:
                 deck.pop(-1)
                 return True, notice, own_notice
@@ -216,7 +234,7 @@ class Copy(Card):
             own_notice = f"You copied {target_player.name}'s hand."
             return True, notice, own_notice
         except (ValueError, IndexError):
-            print("Invalid input.3")
+            show_error("Invalid input.")
             return None
         
 class Thief(Card):
@@ -245,5 +263,5 @@ class Thief(Card):
             own_notice = f"You took {chosen_card} from {target_player.name}'s hand."
             return False, notice, own_notice
         except (ValueError, IndexError):
-            print("Invalid input.3")
+            show_error("Invalid input.")
             return None

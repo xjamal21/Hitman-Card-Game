@@ -1,5 +1,12 @@
 import random
 import os
+import time
+
+def show_error(message):
+    os.system("cls")
+    print(f"ERROR: {message}")
+    time.sleep(1)
+    os.system("cls")
 
 class Player:
     def __init__(self, name):
@@ -14,7 +21,7 @@ class Player:
     # display player hand
     def show_hand(self):
         if self.hand == []:
-            print("You have no cards to play.")
+            show_error("You have no card to play.")
         else:
             for index, card in enumerate(self.hand):
                 print(f"[{index}] {card.name:<20} | {card.desc}")
@@ -67,7 +74,7 @@ class Player:
     def play_card(self, game, deck, current_player):
         if self.hand == []:
             # skip when theres no card in hand
-            print("You have no cards to play.")
+            show_error("You have no card to play.")
             return None
         
         try:
@@ -76,18 +83,18 @@ class Player:
 
             if chosen_card_index >= len(self.hand):
                 os.system("cls")  
-                print("Invalid input.1")
+                show_error("Invalid input.")
                 return None
             
         except ValueError:
-            print("Invalid input.2")
+            show_error("Invalid input.")
             return None
             
         chosen_card = self.hand[chosen_card_index]   
                         
         if chosen_card.name == "Guard Card":
             os.system("cls")  
-            print("You cannot use an Guard Card.")
+            show_error("You cannot use a Guard Card.")
             return None
 
         card_result = chosen_card.ability(game, deck, current_player)
