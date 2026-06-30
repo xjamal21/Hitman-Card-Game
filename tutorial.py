@@ -3,7 +3,7 @@ import os
 class TutorialMode:
     def __init__(self):
         self.steps = [
-            "Welcome to Hitman Card Game! This is a turn-based tactical survival game.",
+            "Welcome to Killerz! This is a turn-based tactical survival game.",
             "Your main goal? Survive. There are hidden Assassin cards buried deep inside the deck.",
             "Everyone starts the game safely with 5 cards total, including 1 Guard Card in their hand.",
             "On your turn, you have two choices:\n(p) Play a card from your hand to use its ability, or\n(d) Draw a card from the deck.",

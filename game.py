@@ -1,10 +1,18 @@
+import os
+import time
+import builtins
+from theme import active_theme
 from player import Player
 from player import show_error
 import cards
-import time
-import os
-# from theme import ThemeManager
 from login import ScoreManager
+
+def print(*args, **kwargs):
+    if args:
+        args = list(args)
+        args[0] = f"{active_theme.current_color}{args[0]}"
+    builtins.print(*args, **kwargs)
+
 
 class Game:
     def __init__(self):
@@ -29,16 +37,15 @@ class Game:
                 for player in self.players:
                     name_list.append(player.name)
                     
-                # name_string = ", ".join(name_list)
-                print(f"Current Players: {", ".join(name_list)}")
+                print(f"Current Players: {', '.join(name_list)}")
             
-            name_input = input("Insert your name. Type '1' to start the game. Type '2' to return to main menu (Minimum 2 players): ").strip()
+            name_input = input(f"{active_theme.current_color}Insert your name. Type '1' to start the game. Type '2' to return to main menu (Minimum 2 players): ").strip()
 
             if name_input == "1":
                 if self.get_player_count() < 2:
                     show_error("Not enough players.")
                 else:
-                    break
+                    return True
             elif name_input == "2":
                 self.players = []
                 self.taken_names = []
@@ -69,7 +76,6 @@ class Game:
                     self.taken_names.append(name_input)
     
     def setup_game(self, deck):
-        # Loading screen: setting up game assets
         os.system("cls")
         print("Setting up card deck...")
         time.sleep(0.5)
@@ -84,7 +90,7 @@ class Game:
             player.hand.append(cards.Guard())
 
             for _ in range(4):
-                for card in deck: #skip assassin and proceed to next card
+                for card in deck:
                     if card.name != "Assassin Card":
                         deck.remove(card)
                         player.hand.append(card)
@@ -140,7 +146,6 @@ class Game:
             for old_notice in expired_notice:
                 self.notification.remove(old_notice)
     
-    # display ingame notification
     def display_notification(self, current_player):
         if self.notification != []:
             for notice in self.notification:
@@ -151,9 +156,7 @@ class Game:
                     print(notice["text"])
         
     def start_game_loop(self, deck):
-        # game_over = False
         current_index = 0
-        
         print("Game start.")
         
         while True:
@@ -162,12 +165,10 @@ class Game:
             
             current_player = self.players[current_index]
             
-            # skip dead players
-            if current_player.isAlive:                     
+            if current_player.isAlive:                    
                 required_turns = getattr(current_player, "turn")
                 turn = 0
                 
-                # loop turn until player finish required turns
                 while turn < required_turns:
                     os.system("cls")
                     print("===================================================================")
@@ -178,13 +179,12 @@ class Game:
                     
                     print(f"Turn {turn + 1} of total {required_turns} turns.")
                     current_player.show_hand()
-                    player_choice = input("Take an action. (p) Play a card (d) Draw a card: ").lower()
+                    player_choice = input(f"{active_theme.current_color}Take an action. (p) Play a card (d) Draw a card: ").lower()
                     
                     if player_choice == "p":
                         card_result = current_player.play_card(self, deck, current_player)
                         if card_result is not None:     
                             doesSkipTurn, notice, own_notice = card_result
-                            # end 1 turn if the card played does skip turn
                             self.add_notification(notice, current_player.name)
                             print(own_notice)
                             
@@ -207,7 +207,6 @@ class Game:
                     else:  
                         show_error("Invalid input. Type 'p' or 'd'.")
 
-                # skip press enter block if current player is dead
                 if not current_player.isAlive:
                     current_player.turn = 1
                     os.system("cls")
@@ -215,7 +214,7 @@ class Game:
 
                 current_player.turn = 1
                 
-                input("Press ENTER to end your turn...")
+                input(f"{active_theme.current_color}Press ENTER to end your turn...")
                 os.system("cls")   
             
             self.update_notification(current_player)
@@ -227,11 +226,7 @@ class Game:
         print(f"GAME OVER! {self.get_players_alive()[0]} is the winner!")
         print("===================================================================")
         
-        # import msvcrt
-        # while msvcrt.kbhit():
-        #     msvcrt.getch()
-        
         scoreboard = ScoreManager()
         scoreboard.handle_user_action(self.get_players_alive()[0].name)
         
-        input("Press ENTER to return to the Main Menu...")
+        input(f"{active_theme.current_color}Press ENTER to return to the Main Menu...")
