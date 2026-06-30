@@ -15,4 +15,4 @@ class ThemeManager:
         self.current_name = "Default (White)"
         self.current_color = Fore.WHITE
 
-theme_manager = ThemeManager()
+active_theme = ThemeManager()

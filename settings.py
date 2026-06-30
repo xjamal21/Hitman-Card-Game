@@ -2,10 +2,11 @@ import os
 import msvcrt
 import time
 from theme import ThemeManager
+from theme import active_theme
 
 class SettingsMenu:
     def __init__(self):
-        self.theme = ThemeManager()
+        self.theme = active_theme
         self.options = ["Change Theme", "Back to Menu"]
         self.selected = 0
 

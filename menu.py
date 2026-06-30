@@ -58,29 +58,30 @@ class GameMenu:
                 if choice == "Start Game":
                     current_game = Game()
                     print(current_color + f"\nYou selected {choice}")
-                    lobby_ready = current_game.create_lobby()
                     
-                    if lobby_ready:
-                        os.system("cls")
-                        print(current_color + "Creating lobby and loading game assets...")
-                        chars = string.ascii_letters + string.digits + "/\{}[]<>"
-                        for _ in range(30):
-                            loading = "".join(random.choice(chars) for _ in range(30))
-                            print(current_color + loading)
-                            time.sleep(0.04)
-                        os.system("cls")
+                    lobby_started = current_game.create_lobby()
+                    
+                    if not lobby_started:
+                        continue
+                    
+                    os.system("cls")
+                    print(current_color + "Creating lobby and loading game assets...")
+                    chars = string.ascii_letters + string.digits + "/\{}[]<>"
+                    for _ in range(30):
+                        loading = "".join(random.choice(chars) for _ in range(30))
+                        print(current_color + loading)
+                        time.sleep(0.04)
+                    os.system("cls")
 
-                        print("=========================== PLAYERS ===============================")
-                        print(f" > {current_game}")
-                        print("===================================================================")
+                    print("=========================== PLAYERS ===============================")
+                    print(f" > {current_game}")
+                    print("===================================================================")
 
-                        game_deck = Deck()
-                        game_deck.build_deck(current_game.get_player_count())
-                        current_game.setup_game(game_deck.decks)
-                        current_game.start_game_loop(game_deck.decks)
-                    else:
-                        pass
-
+                    game_deck = Deck()
+                    game_deck.build_deck(current_game.get_player_count())
+                    current_game.setup_game(game_deck.decks)
+                    current_game.start_game_loop(game_deck.decks)
+                    
                 elif choice == "Settings":
                     self.settings.open()
 

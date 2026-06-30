@@ -11,6 +11,8 @@ from colorama import Fore
 
 colorama.init(autoreset=True)
 
+os.system("cls")
+
 print(Fore.RED + r"""
     
  __    __  ______  __        __        ________ 
