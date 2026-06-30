@@ -1,5 +1,6 @@
 import random
 from player import show_error
+from theme import active_theme
 
 class Card:
     def __init__(self, name, desc):
@@ -58,7 +59,7 @@ class Destiny(Card):
             
         card_names = ", ".join(name_list)    
         
-        notice = f"{current_player} used Destiny."
+        notice = f"{current_player} used Destiny Card."
         own_notice = f"The top cards are {card_names}."
         return False, notice, own_notice
 
@@ -87,10 +88,10 @@ class Target(Card):
         alive_players.remove(current_player)
         
         for index, player in enumerate(alive_players):
-            print(f"[{index}] {player.name}")
+            print(f"{active_theme.current_color}[{index}] {player.name}")
             
         try:
-            target = int(input(f"Choose a player to target (0-{len(alive_players) - 1}): "))
+            target = int(input(f"{active_theme.current_color}Choose a player and take a random card from his hand (0-{len(alive_players) - 1}): "))
             target_player = alive_players[target]
             target_player.turn += 1
             
@@ -220,10 +221,10 @@ class Copy(Card):
         copied_hand = []
         
         for index, player in enumerate(alive_players):
-            print(f"[{index}] {player.name}")
+            print(f"{active_theme.current_color}[{index}] {player.name}")
             
         try:
-            target = int(input(f"Choose a player to copy his hand (0-{len(alive_players) - 1}): "))
+            target = int(input(f"{active_theme.current_color}Choose a player and take a random card from his hand (0-{len(alive_players) - 1}): "))
             target_player = alive_players[target]
             for card in target_player.hand:
                 copied_hand.append(card)
@@ -249,10 +250,10 @@ class Thief(Card):
         alive_players.remove(current_player)
         
         for index, player in enumerate(alive_players):
-            print(f"[{index}] {player.name}")
+            print(f"{active_theme.current_color}[{index}] {player.name}")
             
         try:
-            target = int(input(f"Choose a player and take a random card from his hand (0-{len(alive_players) - 1}): "))
+            target = int(input(f"{active_theme.current_color}Choose a player and take a random card from his hand (0-{len(alive_players) - 1}): "))
             target_player = alive_players[target]
    
             if len(target_player.hand) == 0:
