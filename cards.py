@@ -91,7 +91,7 @@ class Target(Card):
             print(f"{active_theme.current_color}[{index}] {player.name}")
             
         try:
-            target = int(input(f"{active_theme.current_color}Choose a player and take a random card from his hand (0-{len(alive_players) - 1}): "))
+            target = int(input(f"{active_theme.current_color}Choose a player to target (0-{len(alive_players) - 1}): "))
             target_player = alive_players[target]
             target_player.turn += 1
             
@@ -224,7 +224,7 @@ class Copy(Card):
             print(f"{active_theme.current_color}[{index}] {player.name}")
             
         try:
-            target = int(input(f"{active_theme.current_color}Choose a player and take a random card from his hand (0-{len(alive_players) - 1}): "))
+            target = int(input(f"{active_theme.current_color}Choose a player to copy his hand (0-{len(alive_players) - 1}): "))
             target_player = alive_players[target]
             for card in target_player.hand:
                 copied_hand.append(card)
