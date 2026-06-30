@@ -192,7 +192,7 @@ class Game:
                                 turn += 1      
                                 
                             if turn < required_turns:
-                                time.sleep(1)
+                                time.sleep(1.5)
                     elif player_choice == "d":
                         notice, own_notice = current_player.draw_card(deck)
                         self.add_notification(notice, current_player.name)
@@ -203,7 +203,7 @@ class Game:
                             break
                         
                         if turn < required_turns:
-                            time.sleep(1)
+                            time.sleep(1.5)
                     else:  
                         show_error("Invalid input. Type 'p' or 'd'.")
 

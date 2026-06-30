@@ -255,6 +255,10 @@ class Thief(Card):
             target = int(input(f"Choose a player and take a random card from his hand (0-{len(alive_players) - 1}): "))
             target_player = alive_players[target]
    
+            if len(target_player.hand) == 0:
+                show_error(f"{target_player.name} has no cards in hand to steal.")
+                return None
+            
             chosen_card = random.choice(target_player.hand)
             target_player.hand.remove(chosen_card)
             current_player.hand.append(chosen_card)
