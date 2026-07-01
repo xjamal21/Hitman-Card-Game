@@ -3,11 +3,12 @@ import msvcrt
 import time
 from theme import ThemeManager
 from theme import active_theme
+from login import ScoreManager
 
 class SettingsMenu:
     def __init__(self):
         self.theme = active_theme
-        self.options = ["Change Theme", "Back to Menu"]
+        self.options = ["Change Theme", "Edit Scoreboard", "Back to Menu"]
         self.selected = 0
 
     def open(self):
@@ -37,6 +38,8 @@ class SettingsMenu:
                 
                 if choice == "Change Theme":
                     self.open_theme_selector()
+                elif choice == "Edit Scoreboard":
+                    self.edit_score()
                 elif choice == "Back to Menu":
                     break
 
@@ -83,3 +86,55 @@ class SettingsMenu:
                 theme_idx = len(self.theme.themes) - 1
             elif theme_idx >= len(self.theme.themes):
                 theme_idx = 0
+                
+    def edit_score(self):
+        score_idx = 0
+        scoreboard = ScoreManager()
+        
+        while True:
+            os.system("cls")
+            print(self.theme.current_color + "=== SCOREBOARD ===")
+            
+            score_list = scoreboard.display_score()
+
+            if len(score_list) == 0:
+                print(self.theme.current_color + "[The scoreboad is empty]")
+                print("\n[Press ESC to return to Settings]")
+            else:
+                for i, score in enumerate(score_list):
+                    if i == score_idx:
+                        print(self.theme.current_color + f"> {score.strip()}")
+                    else:
+                        print(f"  {score.strip()}")
+                
+                
+                print("\n[Press ENTER to delete | Press DELETE to clear all scores | Press ESC to cancel]")
+            
+            key = msvcrt.getch()
+
+            if key == b'\xe0':
+                key = msvcrt.getch()
+                if len(score_list) > 0:
+                    if key == b'H':
+                        score_idx -= 1
+                    elif key == b'P':
+                        score_idx += 1
+                    elif key == b'S':
+                        scoreboard.clear_all_scores()
+    
+            elif key == b'\r':
+                if len(score_list) > 0:
+                    scoreboard.delete_score(score_idx)
+                    print(self.theme.current_color + "Score deleted.")
+                    time.sleep(1)
+                
+            elif key == b'\x1b': 
+                break
+
+            if len(score_list) > 0:
+                if score_idx < 0:
+                    score_idx = len(score_list) - 1
+                elif score_idx >= len(score_list):
+                    score_idx = 0
+            else:
+                score_idx = 0

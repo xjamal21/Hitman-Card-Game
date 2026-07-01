@@ -39,15 +39,22 @@ class ScoreManager:
         # 3. Save all data back to the file
         with open(self.db_file, "w") as file:
             file.writelines(players)
-
-
-# def main():
-#     # Instantiate the class
-#     manager = ScoreManager()
-
-#     while True:
-#         manager.handle_user_action()
-#         break
-
-# if __name__ == "__main__":
-#     main()
+            
+    def display_score(self):
+        with open(self.db_file, "r") as file:
+            lines = file.readlines()
+            return lines
+    
+    def delete_score(self, index):
+        with open(self.db_file, "r") as file:
+            lines = file.readlines()
+        
+        if 0 <= index < len(lines):
+            lines.pop(index)
+        
+        with open(self.db_file, "w") as file:
+            file.writelines(lines)
+    
+    def clear_all_scores(self):
+        with open(self.db_file, "w") as file:
+            pass
